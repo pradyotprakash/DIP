@@ -1,7 +1,6 @@
 function [ Y ] = myGetBlockElement( X )
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
+	% This function returns the element at the leftmost corner of the block passed to it
+	% Detailed explanation goes here
 
-Y = X(1,1);
+	Y = X(1,1);
 end
-
