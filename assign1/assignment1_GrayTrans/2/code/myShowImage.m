@@ -1,6 +1,7 @@
-function [  ] = myShowImage( InputImage )
+function [] = myShowImage(InputImage)
 	myNumOfColors = 256;
-	myColorScale = [[0:1/(myNumOfColors-1):1]',[0:1/(myNumOfColors-1):1]',[0:1/(myNumOfColors-1):1]'];
+	myColorScale = [[0:1/(myNumOfColors-1):1]', [0:1/(myNumOfColors-1):1]', [0:1/(myNumOfColors-1):1]'];
+
 	% Shows Image with Colourbar and InputImage
 	figure()
 	colormap(myColorScale);
