@@ -2,13 +2,15 @@
 tic;
 %% Your code here
 im_barbara = imread('../data/barbara.png');
-% out_barbara = myHE(im_barbara); % Generates  global enhanced image after histogram equalization
+out_barbara = myHE(im_barbara); % Generates  global enhanced image after histogram equalization
 % out_barbara_AHE = myAHE(im_barbara, 64); % Generates  global enhanced image after histogram equalization
-out_barbara_contractstretching = myLinearContrastStretching(im_barbara);
+% out_barbara_contractstretching = myLinearContrastStretching(im_barbara);
+out_barbara_CLAHE = myCLAHE(im_barbara, 64, 0.5); % Generates  global enhanced image after histogram equalization
 myShowImage(im_barbara);
 % myShowImage(out_barbara);
 % myShowImage(out_barbara_AHE);
-myShowImage(out_barbara_contractstretching);
+% myShowImage(out_barbara_contractstretching);
+myShowImage(out_barbara_CLAHE);
 
 % im_canyon = imread('../data/canyon.png');
 % im_canyon_r = im_canyon(:,:,1);

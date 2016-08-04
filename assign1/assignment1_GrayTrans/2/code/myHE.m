@@ -1,4 +1,4 @@
-function [ outputImage ] = myHE( inputImage )
+function [outputImage] = myHE(inputImage)
 % myAHE takes the inputImage, 8 bit single channel image as the input and
 % enhances it using Histogram equalisation
 
@@ -13,6 +13,11 @@ function [ outputImage ] = myHE( inputImage )
 			bins(int32(inputImage(i,j))+1, 1) = bins(int32(inputImage(i,j))+1, 1) + 1;
 		end
 	end
+
+	% vec = [inputImage(:);(0:255)'];
+	% uniq = unique(vec);
+	% t = [uniq, histc(vec, uniq)] - 1;
+	% bins = double(t(:,2));
 
 	bins = bins ./ (sizeX*sizeY);
 	sum = 0;
