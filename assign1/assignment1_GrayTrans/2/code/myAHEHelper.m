@@ -7,11 +7,10 @@ function [outputValue] = myAHEHelper(inputImage)
 	bins = zeros(ColorNumber, 1);
 	cdf = zeros(ColorNumber, 1);
 
-	for i = 1:sizeX
-		for j = 1:sizeY
-			bins(int32(inputImage(i,j))+1, 1) = bins(int32(inputImage(i,j))+1, 1) + 1;
-		end
-	end
+	vec = [inputImage(:);(0:255)'];
+	uniq = (0:255)';
+	t = [uniq, histc(vec, uniq)];
+	bins = t(:,2) - 1;
 
 	bins = bins ./ (sizeX*sizeY);
 	sum = 0;
