@@ -21,5 +21,8 @@ function outputImage = myBilinearInterpolation(inputImage)
 
 			outputImage(rp,cp) = uint8(inputImage(r,c).*(1-dR).*(1-dC) + inputImage(r+1,c).*(dR).*(1-dC) + inputImage(r,c+1).*(1-dR).*(dC) + inputImage(r+1,c+1).*(dR).*(dC));
 		end
-	end
+    end
+    
+    
+    
 end

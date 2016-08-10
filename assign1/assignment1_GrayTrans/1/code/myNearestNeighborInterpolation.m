@@ -12,10 +12,10 @@ function outputImage = myNearestNeighborInterpolation(inputImage)
 		for cp = 2:Cnew-1
 			rF = rp .* sR;
 			cF = cp .* sC;
-			r = max(2, floor(rF));
-			c = max(2, floor(cF));
+			r = max(1, floor(rF));
+			c = max(1, floor(cF));
 
-			outputImage(rp,cp) = uint8((inputImage(r-1,c-1) + inputImage(r-1,c) + inputImage(r-1,c+1) + inputImage(r,c-1) + inputImage(r,c+1) + inputImage(r,c) + inputImage(r+1,c-1) + inputImage(r+1,c) + inputImage(r+1,c+1))/9);
+			outputImage(rp,cp) = uint8(inputImage(r,c));
 		end
 	end
 end
