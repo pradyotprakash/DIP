@@ -8,7 +8,7 @@ function outputImage = myBilinearInterpolation(inputImage)
 	sR = R ./ Rnew;
 	sC = C ./ Cnew;
 
-	outputImage = zeros(Rnew, Cnew, 'uint8');
+	outputImage = zeros(Rnew, Cnew);
 
 	for rp = 2:Rnew-1
 		for cp = 2:Cnew-1
@@ -19,10 +19,7 @@ function outputImage = myBilinearInterpolation(inputImage)
 			dR = rF - r;
 			dC = cF - c;
 
-			outputImage(rp,cp) = uint8(inputImage(r,c).*(1-dR).*(1-dC) + inputImage(r+1,c).*(dR).*(1-dC) + inputImage(r,c+1).*(1-dR).*(dC) + inputImage(r+1,c+1).*(dR).*(dC));
+			outputImage(rp,cp) = inputImage(r,c).*(1-dR).*(1-dC) + inputImage(r+1,c).*(dR).*(1-dC) + inputImage(r,c+1).*(1-dR).*(dC) + inputImage(r+1,c+1).*(dR).*(dC);
 		end
     end
-    
-    
-    
 end

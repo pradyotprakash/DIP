@@ -3,7 +3,7 @@ function [outputImage] = myHE(inputImage)
 	% enhances it using Histogram equalisation
 
 	[sizeX, sizeY] = size(inputImage);
-	outputImage = zeros(sizeX, sizeY, 'uint8');
+	outputImage = zeros(sizeX, sizeY);
 	ColorNumber = 256;
 	bins = zeros(ColorNumber, 1);
 	vcdf = zeros(ColorNumber, 1);
@@ -23,7 +23,7 @@ function [outputImage] = myHE(inputImage)
 
 	for i = 1:sizeX
 		for j = 1:sizeY
-			outputImage(i,j) = uint8(255.0*vcdf(inputImage(i,j)+1));
+			outputImage(i,j) = 255.0*vcdf(inputImage(i,j)+1);
 		end
 	end
 end

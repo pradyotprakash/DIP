@@ -30,5 +30,5 @@ function [outputValue] = myCLAHEHelper(inputImage, C)
 		cdf(i,1) = sum;
 	end
 
-	outputValue = uint8(255.0*cdf(inputImage(int32(sizeX/2), int32(sizeY/2))+1));
+	outputValue = (255.0*cdf(inputImage(int32(sizeX/2), int32(sizeY/2))+1));
 end

@@ -6,7 +6,7 @@ out_barbara_LCS = myLinearContrastStretching(im_barbara); % Generates  global en
 save('barbara_LinearContrastStrectching.mat','out_barbara_LCS');
 out_barbara_HE = myHE(im_barbara);
 save('barbara_HE.mat','out_barbara_HE');
-out_barbara_AHE_36 = myAHE(im_barbara, 36);
+out_barbara_AHE_36 = myAHE(im_barbara, 3);
 save('barbara_AHE_N_36.mat','out_barbara_AHE_36');
 out_barbara_AHE_64 = myAHE(im_barbara, 64);
 save('barbara_AHE_N_64.mat','out_barbara_AHE_64');

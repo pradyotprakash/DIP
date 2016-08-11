@@ -1,10 +1,10 @@
 function [outputImage] = myLinearContrastStretching(inputImage)
 	[sizeX, sizeY] = size(inputImage);
-    outputImage = zeros(sizeX, sizeY, 'uint8');
+    outputImage = zeros(sizeX, sizeY);
 	minVal = min(min(inputImage))
 	maxVal = max(max(inputImage))
 
-	f = @(x) uint8(255.0 .* double(x - minVal) ./ double(maxVal - minVal));
+	f = @(x) (255.0 .* double(x - minVal) ./ double(maxVal - minVal));
 
 	outputImage = f(inputImage);
 end
