@@ -35,10 +35,12 @@ function outputImage = myBilateralFiltering(inputImage, sigmaS, sigmaR)
 		end
 	end
 
+	fprintf('RMSD: %d\n', RMSD(inputImage, outputImage));
+
 	% Shows Image with Colourbar and InputImage
 	myNumOfColors = 256;
 	myColorScale = [[0:1/(myNumOfColors-1):1]',[0:1/(myNumOfColors-1):1]',[0:1/(myNumOfColors-1):1]'];
-	
+
 	figure;
 	colormap(myColorScale);
 	v = myLinearContrastStretching(imresize(maskS, [101, 101]));
