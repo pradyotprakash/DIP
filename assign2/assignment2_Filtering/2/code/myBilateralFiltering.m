@@ -1,76 +1,46 @@
-function outputImage = myBilateralFiltering(inputImage, sigmaS, sigmaR)
-	minIntensity = min(inputImage(:));
-	maxIntensity = max(inputImage(:));
+function [outputImage, noisyImage, err] = myBilateralFiltering(inputImage, W, sigmaS, sigmaR)
+	inputImage = double(inputImage);
+	minIntensity = min(min(inputImage));
+	maxIntensity = max(max(inputImage));
 
 	stdDev = 0.05 .* (maxIntensity - minIntensity);
 	noise = stdDev .* randn(size(inputImage));
 	noisyImage = inputImage + noise;
 
 	[sizeX, sizeY] = size(noisyImage);
-	outputImage = noisyImage;
+	outputImage = zeros(size(inputImage));
 
-	W = 5;
-	maskS = zeros(W, W);
+	maskS = fspecial('gaussian', [W, W], sigmaS);
+	half = floor(W/2);
 
-	for i = -(W-1)/2:(W-1)/2
-		for j = -(W-1)/2:(W-1)/2
-			maskS(int32(W/2) + i, int32(W/2) + j) = exp(-0.5 .* (sqrt(i .^2 + j .^ 2))) ./ (sqrt(2 .* pi .* sigmaS .* sigmaS));
-		end
-	end
+	norm_consR = sqrt(2*pi) * sigmaR;
+	for i = 1:sizeX
+		for j = 1:sizeY
 
-	for x = 1+int32(W/2):sizeX-int32(W/2)
-		for y = 1+int32(W/2):sizeY-int32(W/2)
-			v1 = 0.0;
-			v2 = 0.0;
-			
-			for indi = -(W-1)/2:(W-1)/2
-				for indj = -(W-1)/2:(W-1)/2
-					v = maskS(int32(W/2) + indi, int32(W/2) + indj) .* exp(-0.5 .* (sqrt((inputImage(x, y) - inputImage(x+indi, y+indj)) .^2))) ./ (sqrt(2 .* pi .* sigmaR .* sigmaR));
-					v1 = v1 + v;
-					v2 = v2 + v.*inputImage(x+i, y+j);
+			% li = max(1, i-half); ri = min(sizeX, i+half);
+			% ti = max(1, j-half); bi = min(sizeY, j+half);
+			% bloc(li:ri, ti:bi) = noisyImage(li:ri, ti:bi) - noisyImage(i, j);
+			% maskR = exp(-0.5 .* (bloc .^ 2)) ./ norm_consR;
+
+			bloc = zeros(W, W);
+			for x = -half:half
+				for y = -half:half
+					if i + x > 0 && i + x <= sizeX && j + y > 0 && j + y <= sizeY
+						bloc(1+half+x, 1+half+y) = noisyImage(i + x, j + y);
+						maskR(1+half+x, 1+half+y) = exp(((noisyImage(i + x, j + y) - noisyImage(i, j)) ^ 2) * (-0.5) / sigmaR^2) / norm_consR;
+					else
+						bloc(1+half+x, 1+half+y) = 0;
+						maskR(1+half+x, 1+half+y) = 0;
+					end
 				end
 			end
-
-			outputImage(x, y) = v2 ./ v1;
+			
+			mask = maskS .* maskR;
+			num = sum(sum(bloc .* mask));
+			den = sum(sum(mask));
+			outputImage(i, j) = num/den;
 		end
 	end
 
-	fprintf('RMSD: %d\n', RMSD(inputImage, outputImage));
-
-	% Shows Image with Colourbar and InputImage
-	myNumOfColors = 256;
-	myColorScale = [[0:1/(myNumOfColors-1):1]',[0:1/(myNumOfColors-1):1]',[0:1/(myNumOfColors-1):1]'];
-
-	figure;
-	colormap(myColorScale);
-	v = myLinearContrastStretching(imresize(maskS, [101, 101]));
-	imshow(v, []);
-	axis on;
-	colorbar;
-	title('Space mask');
-
-	figure;
-	subplot(1, 3, 1);
-	colormap(myColorScale);
-	v = myLinearContrastStretching(inputImage);
-	imshow(v, []);
-	axis on;
-	colorbar;
-	title('Original');
-
-	subplot(1, 3, 2);
-	colormap(myColorScale);
-	v = myLinearContrastStretching(noisyImage);
-	imshow(v, []);
-	axis on;
-	colorbar;
-	title('Noisy image');
-
-	subplot(1, 3, 3);
-	colormap(myColorScale);
-	v = myLinearContrastStretching(outputImage);
-	imshow(v, []);
-	axis on;
-	colorbar;
-	title('Bilaterial filtered image');
+	err = RMSD(inputImage, outputImage);
 end
