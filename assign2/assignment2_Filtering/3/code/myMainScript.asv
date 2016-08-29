@@ -30,7 +30,7 @@ title('Source Image');
 
 Final_RMS = myRMSD(src_shrink,BilateralFilter_Shrink)
 % BilateralFilter = myBilinearInterpolation(BilateralFilter_Shrink,sizeX,sizeY);
-myShowImage(uint8(BilateralFilter_Shrink));
+myShowImage(uint8(BilateralFilter_));
 title('Corrected Image');
 
 toc;
