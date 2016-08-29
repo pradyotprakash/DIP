@@ -1,0 +1,11 @@
+We worked with a window size of 12 for both the images.
+
+Tuned parameters for the 'croppedLion' image:
+sigma = 2
+weighting factor of the enhancement = 4
+
+Tuned parameters for the 'croppedLion' image:
+sigma = 1.5
+weighting factor of the enhancement = 1
+
+These parameters give a reasonable enhancement of the images.
