@@ -1,0 +1,15 @@
+function [ eig1, eig2 ] = myFindEigenValue( A, B, C )
+%UNTITLED Summary of this function goes here
+%   Detailed explanation goes here
+[sizeX, sizeY] = size(A);
+eig1 = zeros(sizeX,sizeY);
+eig2 = zeros(sizeX,sizeY);
+for i = 1:sizeX
+    for j = 1:sizeY
+        [eig1(i,j), eig2(i,j)] = eig([A(i,j) B(i,j); B(i C]); 
+    end
+end
+
+
+end
+

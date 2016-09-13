@@ -1,11 +1,15 @@
-function [outputImage, H] = myHarrisCornerDetection(inputImage, sigma1, sigma2, k)
+function [outputImage, H, Ix, Iy, A,B,C] = myHarrisCornerDetection(inputImage, sigma1, sigma2, k)
 
 	W = 5;
 
 	h = fspecial('gaussian', [2, 2], sigma1);
 	inputImage = imfilter(inputImage, h);
+    FilterX = [-1 0 1;-2 0 2;-1 0 1];
+    FilterY = FilterX';
+    Ix = imfilter(inputImage,FilterX);
+    Iy = imfilter(inputImage,FilterY);
 
-	[Ix, Iy] = imgradientxy(inputImage);
+	
 
 	Ix2 = Ix .^ 2;
 	Ixy = Ix .* Iy;

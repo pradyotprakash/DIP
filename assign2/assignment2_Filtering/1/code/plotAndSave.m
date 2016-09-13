@@ -7,7 +7,7 @@ function [] = plotAndSave(img1, img2, name, i)
 	title('Original');
 
 	subplot(1, 2, 2);
-	v = myNewLinearContrastStretching(img2);
+	v = myLinearContrastStretching(img2);
 	imshow(v, []);
 	axis on;
 	title('Enhanced');
