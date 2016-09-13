@@ -1,4 +1,4 @@
-function outputImage = myMeanShiftSegmentation(inputImage)
+function [processedImage, outputImage] = myMeanShiftSegmentation(inputImage)
 
 	W = 2;
 	sigma1 = 0.66;
@@ -6,10 +6,10 @@ function outputImage = myMeanShiftSegmentation(inputImage)
 	spaceSigma = 20;
 	intensitySigma = 20;
 
-	sigmas = -2 .* ([sigma1, sigma1, intensitySigma, intensitySigma, intensitySigma] .^ 2);
-	sigmaProds = (2*pi)^2.5 * sigma1 * sigma1 * intensitySigma * intensitySigma * intensitySigma;
+	sigmas = -2 .* ([spaceSigma, spaceSigma, intensitySigma, intensitySigma, intensitySigma] .^ 2);
+	sigmaProds = (2*pi)^2.5 * spaceSigma * spaceSigma * intensitySigma * intensitySigma * intensitySigma;
 
-	k = 1 + 10;
+	k = 1 + 100;
 
 	h = fspecial('gaussian', [W, W], sigma1);
 
@@ -26,7 +26,7 @@ function outputImage = myMeanShiftSegmentation(inputImage)
 	for x = 1:size(processedImage, 1)
 		for y = 1:size(processedImage, 2)
 			count = count + 1;
-			imageRepresentation(count, :) = [x, y, processedImage(x, y, 1), processedImage(x, y, 2), processedImage(x, y, 3)];
+			imageRepresentation(count, :) = [x/255, y/255, processedImage(x, y, 1), processedImage(x, y, 2), processedImage(x, y, 3)];
 		end
 	end
 
@@ -36,10 +36,10 @@ function outputImage = myMeanShiftSegmentation(inputImage)
 
 		for x = 1:size(processedImage, 1)
 			for y = 1:size(processedImage, 2)
-				rowInRepMat = (x-1) * size(processedImage, 2) + y;
+				rowInRepresentationMatrix = (x-1) * size(processedImage, 2) + y;
 
-				points = IDX(rowInRepMat, 2:end); % k-1 closest points here
-				currentPoint = imageRepresentation(rowInRepMat, :);
+				points = IDX(rowInRepresentationMatrix, 2:end); % k-1 closest points here
+				currentPoint = imageRepresentation(rowInRepresentationMatrix, :);
 
 				u = zeros(1, 5);
 				w = 0;
@@ -48,11 +48,12 @@ function outputImage = myMeanShiftSegmentation(inputImage)
 					point = imageRepresentation(points(1, t), :);
 					w1 = exp(sum(((currentPoint - point).^2) ./ sigmas))/ sigmaProds;
 
-					u = u + w1* point;
+					u = u + w1*point;
 					w = w + w1;
 				end
 
-				newImageRepresentation(rowInRepMat, :) = u/w;
+				u = u./w;
+						newImageRepresentation(rowInRepresentationMatrix, :) = [currentPoint(1, 1),  currentPoint(1, 2), u(1, 3), u(1, 4), u(1, 5)];
 
 			end
 		end	
@@ -60,18 +61,25 @@ function outputImage = myMeanShiftSegmentation(inputImage)
 		imageRepresentation = newImageRepresentation;
 	end
 
-% sum(isnan(imageRepresentation))
+	% row = zeros(numPixels, 1);
+	% col = zeros(numPixels, 1);
+	% for i = 1:size(imageRepresentation, 1)
+	% 	row(i, 1) = imageRepresentation(i, 1);
+	% 	col(i, 1) = imageRepresentation(i, 2);
+	% end
+	% 
+	% figure;
+	% plot(row, col, 'r*');
+	% hold on;
 
-	row = zeros(numPixels, 1);
-	col = zeros(numPixels, 1);
-	for i = 1:size(imageRepresentation, 1)
-		row(i, 1) = imageRepresentation(i, 1);
-		col(i, 1) = imageRepresentation(i, 2);
+	outputImage = zeros(size(processedImage));
+	for x = 1:size(processedImage, 1)
+		for y = 1:size(processedImage, 2)
+			rowInRepresentationMatrix = (x-1) * size(processedImage, 2) + y;
+			for i = 1:3
+				outputImage(x,y,i) = imageRepresentation(rowInRepresentationMatrix, i+2);
+			end
+		end
 	end
 
-	figure;
-	plot(row, col, 'r*');
-	hold on;
-
-	outputImage = [row, col];
 end
