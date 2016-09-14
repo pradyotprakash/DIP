@@ -4,11 +4,14 @@ tic;
 %% Your code here
 boat_struct = load('../data/boat');
 boat = myLinearContrastStretching(boat_struct.imageOrig);
-[corners, h, Ix, Iy, A, B, C] = myHarrisCornerDetector(boat, 0.66, 1, 0.01);
+[corners, h, Ix, Iy, A, B, C] = myHarrisCornerDetector(boat, 0.7, 2, 0.03);
+figure(1);
 imshow(boat, []);
+colorbar;
 hold on;
 [row, col] = find(corners);
-plot(row, col, 'r*');
+plot(col, row, 'r*');
+
 figure(2)
 subplot(121)
 imshow(Ix)
