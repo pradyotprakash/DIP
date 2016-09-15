@@ -1,85 +1,35 @@
-function [processedImage, outputImage] = myMeanShiftSegmentation(inputImage)
+function [outputImage] = myMeanShiftSegmentation(inputImage, numIterations, spaceSigma, intensitySigma)
+	k = 400;
 
-	W = 2;
-	sigma1 = 0.66;
-	numIterations = 20;
-	spaceSigma = 20;
-	intensitySigma = 20;
+	indices = double(zeros(size(inputImage, 1)^2, 2));
 
-	sigmas = -2 .* ([spaceSigma, spaceSigma, intensitySigma, intensitySigma, intensitySigma] .^ 2);
-	sigmaProds = (2*pi)^2.5 * spaceSigma * spaceSigma * intensitySigma * intensitySigma * intensitySigma;
-
-	k = 1 + 100;
-
-	h = fspecial('gaussian', [W, W], sigma1);
-
-	for i = 1:3
-		processedImage(:, :, i) = myShrinkImageByFactorD(imfilter(myLinearContrastStretching(inputImage(:, :, i)), h), 2);
-	end
-
-	numPixels = size(processedImage, 1) * size(processedImage, 2);
-	imageRepresentation = zeros(numPixels, 5);
-	newImageRepresentation = zeros(size(imageRepresentation));
-
-	% initialize imageRepresentation
 	count = 0;
-	for x = 1:size(processedImage, 1)
-		for y = 1:size(processedImage, 2)
+	for j = 1:size(inputImage, 1)
+		for i = 1:size(inputImage, 1)
 			count = count + 1;
-			imageRepresentation(count, :) = [x/255, y/255, processedImage(x, y, 1), processedImage(x, y, 2), processedImage(x, y, 3)];
+			indices(count, :) = double([i, j]);
 		end
 	end
 
-	for i = 1:numIterations
-		fprintf('Iter: %d\n', i);
-		[IDX, D] = knnsearch(imageRepresentation, imageRepresentation, 'K', k, 'IncludeTies', ~true); %handle cell situation later
+	imageRepresentation = double([indices, reshape(inputImage, [size(inputImage, 1)^2, 3])]);
+	newImageRepresentation = double(zeros(size(imageRepresentation)));
 
-		for x = 1:size(processedImage, 1)
-			for y = 1:size(processedImage, 2)
-				rowInRepresentationMatrix = (x-1) * size(processedImage, 2) + y;
+	for iter = 1:numIterations
+		iter
+		f = bsxfun(@(x,y) x./y, imageRepresentation, sqrt(2)*[spaceSigma, spaceSigma, intensitySigma, intensitySigma, intensitySigma]);
+		[IDX, D] = knnsearch(f, f, 'K', k);
 
-				points = IDX(rowInRepresentationMatrix, 2:end); % k-1 closest points here
-				currentPoint = imageRepresentation(rowInRepresentationMatrix, :);
-
-				u = zeros(1, 5);
-				w = 0;
-
-				for t = 1:size(points, 2)
-					point = imageRepresentation(points(1, t), :);
-					w1 = exp(sum(((currentPoint - point).^2) ./ sigmas))/ sigmaProds;
-
-					u = u + w1*point;
-					w = w + w1;
-				end
-
-				u = u./w;
-						newImageRepresentation(rowInRepresentationMatrix, :) = [currentPoint(1, 1),  currentPoint(1, 2), u(1, 3), u(1, 4), u(1, 5)];
-
-			end
-		end	
-
+		for count = 1:size(inputImage, 1)^2
+				nbrs = imageRepresentation(IDX(count, 2:end), :);
+				wts = exp(-((D(count, 2:end)).^2));
+				u = sum(bsxfun(@(x,y) x.*y, nbrs, wts'));
+				sum_wts = sum(wts);
+				u = u/sum_wts;
+				newImageRepresentation(count, :) = double([imageRepresentation(count, 1), imageRepresentation(count, 2), u(1, 3:end)]);
+		end
+		sum(sum(abs(imageRepresentation - newImageRepresentation)))/(size(imageRepresentation,1))
 		imageRepresentation = newImageRepresentation;
+
 	end
-
-	% row = zeros(numPixels, 1);
-	% col = zeros(numPixels, 1);
-	% for i = 1:size(imageRepresentation, 1)
-	% 	row(i, 1) = imageRepresentation(i, 1);
-	% 	col(i, 1) = imageRepresentation(i, 2);
-	% end
-	% 
-	% figure;
-	% plot(row, col, 'r*');
-	% hold on;
-
-	outputImage = zeros(size(processedImage));
-	for x = 1:size(processedImage, 1)
-		for y = 1:size(processedImage, 2)
-			rowInRepresentationMatrix = (x-1) * size(processedImage, 2) + y;
-			for i = 1:3
-				outputImage(x,y,i) = imageRepresentation(rowInRepresentationMatrix, i+2);
-			end
-		end
-	end
-
+	outputImage = uint8(round(reshape(imageRepresentation(:, 3:5), [size(inputImage, 1), size(inputImage, 1), 3])));
 end
