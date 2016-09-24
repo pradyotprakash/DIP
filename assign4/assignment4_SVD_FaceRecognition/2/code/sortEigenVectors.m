@@ -1,4 +1,4 @@
-function [ V1, D1 ] = sortEigenVectors( V,D)
+function [ D1, V1 ] = sortEigenVectors( D,V )
 %UNTITLED Summary of this function goes here
 EigValues = diag(D);
 V1 = zeros(size(V,1),size(V,2));
