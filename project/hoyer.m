@@ -1,62 +1,40 @@
 tic;
 
-% prepareData;
-
-d = size(X, 1);
-m = 50;
-n = size(X, 2);
-
-rng(23);
-sinit = abs(rand(m, n) + 1);
-ainit = normc(abs(rand(d, m) + 1));
-
-fprintf('Initialization done\nStarting convergence operations\n');
-
-iter = 0;
-max_iter = 1000;
-thres = 1e-4;
-
-A = ainit;
-S = sinit;
-vals = [];
-
+blockSize = 5;
 lambda = 10;
-mu = 1e-3;
+numAtoms = [10, 10, 10, 10, 10, 10, 10, 10, 10, 10];
+c = 0;
+A = zeros(blockSize^2, sum(numAtoms));
+X = [];
+labels = [];
 
-clear sinit ainit;
+fprintf('Starting computing atoms\n');
 
-repeat = 0;
-val = funcval(X, A, S, lambda);
-while iter < max_iter
-	if repeat == 0
-		vallast = val;
-	end
+for label = 0:9
+	m = numAtoms(1, label + 1);
+	[Ai, Xi] = getAtoms(label, m, blockSize, lambda);
+	A(:, c + 1:c + m) = Ai;
+	c = c + m;
+	X = [X, Xi];
+	labels = [labels, ones(size(Xi, 2)) * label];
+	clear Ai Xi;
+end
 
-	A_new = A - mu * (A * S - X) * S';
-	A_new = normc(max(0, A_new));
+fprintf('All atoms computed\n');
+fprintf('Sparse coding the data\n');
 
-	S_new = S .* (A_new' * X) ./ ((A_new' * A_new * S) + lambda);
-	val = funcval(X, A_new, S_new, lambda);
+S = learnCodes(X, A, lambda);
+clear X;
+fprintf('Convergence for S complete\n');
 
-	if abs((val - vallast)/vallast) < thres
-		break;
-	end
-	
-	if val > vallast
-		mu = mu * 0.5;
-		repeat = 1;
-		continue;
-	else
-		mu = mu * 1.1;
-		repeat = 0;
-		iter = iter + 1;
-	end
+fprintf('Fitting random forest classifier\n');
+Mdl = TreeBagger(50, S', labels', 'oobpred', 'on', 'Method', 'classification');
 
-	A = A_new;
-	S = S_new;
-	vals = [vals, val];
-
-	fprintf('iter: %d, val: %d\n', iter, val);
+% validations
+fprintf('Starting validation\n');
+for label = 0:9
+	acc = validate(Mdl, label, A, lambda);
+	fprintf('Accuracy for class %d: %f\n', label, acc);
 end
 
 toc;

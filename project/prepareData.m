@@ -1,10 +1,7 @@
-tic;
+function [X] = prepareData(label, blockSize, name)
 
-blockSize = 5;
-half = floor(blockSize/2); % 2
-trainData = 'MNIST_extracted/train_images/';
-
-for label = 0:0
+	half = floor(blockSize/2); % 2
+	trainData = strcat('MNIST_extracted/', name, '_images/');
 
 	count = 0;
 	sourceFolder = strcat(trainData, int2str(label), '/');
@@ -28,9 +25,7 @@ for label = 0:0
 		end
 	end
 
+	X = temp(:, 1:count);
+	clear temp trainData label count sourceFolder listing img x y p q t;
+
 end
-
-X = temp(:, 1:count);
-clear temp trainData label count sourceFolder listing img x y p q t;
-
-toc;
