@@ -10,13 +10,13 @@ labels = [];
 
 fprintf('Starting computing atoms\n');
 
-for label = 0:9
+for label = 0:0
 	m = numAtoms(1, label + 1);
 	[Ai, Xi] = getAtoms(label, m, blockSize, lambda);
 	A(:, c + 1:c + m) = Ai;
 	c = c + m;
 	X = [X, Xi];
-	labels = [labels, ones(size(Xi, 2)) * label];
+	labels = [labels, ones(1, size(Xi, 2)) * label];
 	clear Ai Xi;
 end
 
@@ -32,8 +32,8 @@ Mdl = TreeBagger(50, S', labels', 'oobpred', 'on', 'Method', 'classification');
 
 % validations
 fprintf('Starting validation\n');
-for label = 0:9
-	acc = validate(Mdl, label, A, lambda);
+for label = 0:0
+	acc = validate(Mdl, label, A, blockSize, lambda);
 	fprintf('Accuracy for class %d: %f\n', label, acc);
 end
 
