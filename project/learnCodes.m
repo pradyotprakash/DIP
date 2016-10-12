@@ -4,17 +4,14 @@ function [S] = learnCodes(X, A, lambda)
 	n = size(X, 2);
 	m = size(A, 2);
 
-	sinit = abs(rand(m, n) + 1);
+	S = abs(rand(m, n, 'single') + 1);
 	iter = 0;
 	max_iter = 1000;
 	thres = 1e-4;
 
-	S = sinit;
 	vals = [];
 
 	mu = 1e-3;
-
-	clear sinit;
 
 	repeat = 0;
 	val = funcval(X, A, S, lambda);

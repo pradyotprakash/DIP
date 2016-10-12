@@ -6,8 +6,8 @@ function [A, X] = getAtoms(label, m, blockSize, lambda)
 	d = size(X, 1);
 	n = size(X, 2);
 
-	sinit = abs(rand(m, n) + 1);
-	ainit = normc(abs(rand(d, m) + 1));
+	sinit = abs(rand(m, n, 'single') + 1);
+	ainit = normc(abs(rand(d, m, 'single') + 1));
 
 	fprintf('Initialization done\n');
 	fprintf('Starting convergence operations for label: %d\n', label);

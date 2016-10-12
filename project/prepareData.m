@@ -8,7 +8,7 @@ function [X] = prepareData(label, blockSize, name)
 	listing = dir(sourceFolder);
 	temp = zeros(blockSize^2, 576*(size(listing, 1)-2), 'single');
 
-	for i = 3:size(listing, 1) - 2
+	for i = 3:floor((size(listing, 1) - 2)/2)
 		img = imread(strcat(sourceFolder, listing(i).name));
 
 		for x = half:size(img, 1) - half-1
