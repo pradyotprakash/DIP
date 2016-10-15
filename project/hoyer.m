@@ -1,7 +1,7 @@
 tic;
 
-blockSize = 5;
-lambda = 10;
+blockSize = 14;
+lambda = 0;
 numAtoms = [10, 10, 10, 10, 10, 10, 10, 10, 10, 10];
 c = 0;
 A = zeros(blockSize^2, sum(numAtoms));
@@ -28,13 +28,26 @@ clear X;
 fprintf('Convergence for S complete\n');
 
 fprintf('Fitting random forest classifier\n');
-Mdl = TreeBagger(50, S', labels', 'oobpred', 'on', 'Method', 'classification');
+
+% Mdl = fitcdiscr(S', labels);
+% Mdl = fitcdiscr(S', labels, 'DiscrimType', 'quadratic');
+Mdl = TreeBagger(100, S', labels', 'oobpred', 'on', 'Method', 'classification');
+% Mdl = fitcnb(S', labels);
+% Mdl = fitctree(S', labels, 'PredictorNames', {'SL' 'SW' });
+
 
 % validations
+totAcc = 0.0;
+count = 0;
 fprintf('Starting validation\n');
 for label = 0:9
-	acc = validate(Mdl, label, A, blockSize, lambda);
+	[acc, c, pred] = validate(Mdl, label, A, blockSize, lambda);
+	totAcc = totAcc + acc;
+	count = count + c;
+	acc = acc * 100 / c;
 	fprintf('Accuracy for class %d: %f\n', label, acc);
 end
+
+fprintf('Average accuracy: %f\n', 100*totAcc/count);
 
 toc;

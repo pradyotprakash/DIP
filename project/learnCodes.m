@@ -4,10 +4,11 @@ function [S] = learnCodes(X, A, lambda)
 	n = size(X, 2);
 	m = size(A, 2);
 
-	S = abs(rand(m, n, 'single') + 1);
+	rng(0);
+	S = abs(rand(m, n, 'single'));
 	iter = 0;
 	max_iter = 1000;
-	thres = 1e-4;
+	thres = 1e-6;
 
 	vals = [];
 

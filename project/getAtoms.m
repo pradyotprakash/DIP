@@ -6,23 +6,19 @@ function [A, X] = getAtoms(label, m, blockSize, lambda)
 	d = size(X, 1);
 	n = size(X, 2);
 
-	sinit = abs(rand(m, n, 'single') + 1);
-	ainit = normc(abs(rand(d, m, 'single') + 1));
+	rng(0);
+	S = abs(rand(m, n, 'single'));
+	A = normc(abs(rand(d, m, 'single')));
 
 	fprintf('Initialization done\n');
 	fprintf('Starting convergence operations for label: %d\n', label);
 
 	iter = 0;
 	max_iter = 1000;
-	thres = 1e-4;
-
-	A = ainit;
-	S = sinit;
-	vals = [];
-
+	thres = 1e-6;
 	mu = 1e-3;
 
-	clear sinit ainit;
+	vals = [];
 
 	repeat = 0;
 	val = funcval(X, A, S, lambda);
@@ -48,9 +44,9 @@ function [A, X] = getAtoms(label, m, blockSize, lambda)
 		else
 			mu = mu * 1.1;
 			repeat = 0;
-			iter = iter + 1;
 		end
 
+		iter = iter + 1;
 		A = A_new;
 		S = S_new;
 		vals = [vals, val];
