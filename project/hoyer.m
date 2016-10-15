@@ -29,12 +29,7 @@ fprintf('Convergence for S complete\n');
 
 fprintf('Fitting random forest classifier\n');
 
-% Mdl = fitcdiscr(S', labels);
-% Mdl = fitcdiscr(S', labels, 'DiscrimType', 'quadratic');
 Mdl = TreeBagger(100, S', labels', 'oobpred', 'on', 'Method', 'classification');
-% Mdl = fitcnb(S', labels);
-% Mdl = fitctree(S', labels, 'PredictorNames', {'SL' 'SW' });
-
 
 % validations
 totAcc = 0.0;

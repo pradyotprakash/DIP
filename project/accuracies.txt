@@ -1,0 +1,12 @@
+Class 0: 98.367347
+Class 1: 98.854626
+Class 2: 96.317829
+Class 3: 94.653465
+Class 4: 95.112016
+Class 5: 92.152466
+Class 6: 97.077244
+Class 7: 94.552529
+Class 8: 87.166324
+Class 9: 90.981169
+
+Average accuracy: 94.610000
