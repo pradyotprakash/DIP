@@ -34,15 +34,17 @@ Mdl = TreeBagger(100, S', labels', 'oobpred', 'on', 'Method', 'classification');
 % validations
 totAcc = 0.0;
 count = 0;
+accuracies = [];
 fprintf('Starting validation\n');
 for label = 0:9
 	[acc, c, pred] = validate(Mdl, label, A, blockSize, lambda);
 	totAcc = totAcc + acc;
 	count = count + c;
 	acc = acc * 100 / c;
+	accuracies = [accuracies, acc];
 	fprintf('Accuracy for class %d: %f\n', label, acc);
 end
 
 fprintf('Average accuracy: %f\n', 100*totAcc/count);
-
+accuracies;
 toc;
