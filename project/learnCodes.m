@@ -41,7 +41,7 @@ function [S] = learnCodes(X, A, lambda)
 		S = S_new;
 		vals = [vals, val];
 
-		fprintf('iter: %d, val: %d\n', iter, val);
+		% fprintf('iter: %d, val: %d\n', iter, val);
 	end
 
 	clear S_new vals;

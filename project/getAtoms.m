@@ -1,5 +1,5 @@
 function [A, X] = getAtoms(label, m, blockSize, lambda)
-	fprintf('Collecting data for label: %d\n', label);
+	% fprintf('Collecting data for label: %d\n', label);
 
 	X = prepareData(label, blockSize, 'train');
 
@@ -10,8 +10,8 @@ function [A, X] = getAtoms(label, m, blockSize, lambda)
 	S = abs(rand(m, n, 'single'));
 	A = normc(abs(rand(d, m, 'single')));
 
-	fprintf('Initialization done\n');
-	fprintf('Starting convergence operations for label: %d\n', label);
+	% fprintf('Initialization done\n');
+	% fprintf('Starting convergence operations for label: %d\n', label);
 
 	iter = 0;
 	max_iter = 1000;
@@ -51,10 +51,10 @@ function [A, X] = getAtoms(label, m, blockSize, lambda)
 		S = S_new;
 		vals = [vals, val];
 
-		fprintf('iter: %d, val: %d\n', iter, val);
+		% fprintf('iter: %d, val: %d\n', iter, val);
 	end
 
-	fprintf('Convergence complete\n');
+	% fprintf('Convergence complete\n');
 
 	clear vals S A_new S_new;
 

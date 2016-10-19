@@ -1,0 +1,231 @@
+Lambda vs accuracies
+====================
+Lambda: 0
+--------
+Lambda vs accuracies
+====================
+Lambda: 0
+--------
+Accuracy for class 0: 98.367347
+Accuracy for class 1: 98.854626
+Accuracy for class 2: 96.414729
+Accuracy for class 3: 94.752475
+Accuracy for class 4: 95.621181
+Accuracy for class 5: 92.825112
+Accuracy for class 6: 97.181628
+Accuracy for class 7: 94.163424
+Accuracy for class 8: 87.268994
+Accuracy for class 9: 90.882061
+Average accuracy: 94.710000
+Lambda: 1
+--------
+Accuracy for class 0: 94.081633
+Accuracy for class 1: 19.735683
+Accuracy for class 2: 84.883721
+Accuracy for class 3: 82.673267
+Accuracy for class 4: 54.480652
+Accuracy for class 5: 71.412556
+Accuracy for class 6: 89.665971
+Accuracy for class 7: 71.692607
+Accuracy for class 8: 71.457906
+Accuracy for class 9: 81.367691
+Average accuracy: 71.420000
+Lambda: 2
+--------
+Accuracy for class 0: 48.571429
+Accuracy for class 1: 68.017621
+Accuracy for class 2: 51.356589
+Accuracy for class 3: 56.930693
+Accuracy for class 4: 68.329939
+Accuracy for class 5: 45.403587
+Accuracy for class 6: 80.375783
+Accuracy for class 7: 78.501946
+Accuracy for class 8: 15.913758
+Accuracy for class 9: 60.951437
+Average accuracy: 57.760000
+Lambda: 5
+--------
+Accuracy for class 0: 87.653061
+Accuracy for class 1: 0.000000
+Accuracy for class 2: 44.282946
+Accuracy for class 3: 49.207921
+Accuracy for class 4: 52.851324
+Accuracy for class 5: 12.331839
+Accuracy for class 6: 53.444676
+Accuracy for class 7: 67.217899
+Accuracy for class 8: 48.973306
+Accuracy for class 9: 39.246779
+Average accuracy: 45.180000
+Lambda: 7
+--------
+Accuracy for class 0: 0.000000
+Accuracy for class 1: 90.132159
+Accuracy for class 2: 30.523256
+Accuracy for class 3: 38.217822
+Accuracy for class 4: 40.936864
+Accuracy for class 5: 7.286996
+Accuracy for class 6: 41.544885
+Accuracy for class 7: 62.937743
+Accuracy for class 8: 0.000000
+Accuracy for class 9: 29.930624
+Average accuracy: 35.380000
+Lambda: 10
+--------
+Accuracy for class 0: 83.367347
+Accuracy for class 1: 0.000000
+Accuracy for class 2: 23.449612
+Accuracy for class 3: 26.732673
+Accuracy for class 4: 36.354379
+Accuracy for class 5: 6.165919
+Accuracy for class 6: 31.732777
+Accuracy for class 7: 58.560311
+Accuracy for class 8: 28.131417
+Accuracy for class 9: 27.353816
+Average accuracy: 31.970000
+Lambda: 15
+--------
+Accuracy for class 0: 78.061224
+Accuracy for class 1: 88.810573
+Accuracy for class 2: 10.271318
+Accuracy for class 3: 15.544554
+Accuracy for class 4: 24.236253
+Accuracy for class 5: 4.260090
+Accuracy for class 6: 15.344468
+Accuracy for class 7: 50.680934
+Accuracy for class 8: 15.503080
+Accuracy for class 9: 20.317146
+Average accuracy: 33.360000
+Lambda: 20
+--------
+Accuracy for class 0: 74.183673
+Accuracy for class 1: 88.193833
+Accuracy for class 2: 11.143411
+Accuracy for class 3: 10.297030
+Accuracy for class 4: 20.875764
+Accuracy for class 5: 3.251121
+Accuracy for class 6: 13.987474
+Accuracy for class 7: 48.832685
+Accuracy for class 8: 13.141684
+Accuracy for class 9: 20.019822
+Average accuracy: 31.470000
+Lambda: 25
+--------
+Accuracy for class 0: 74.489796
+Accuracy for class 1: 0.000000
+Accuracy for class 2: 9.593023
+Accuracy for class 3: 8.514851
+Accuracy for class 4: 19.450102
+Accuracy for class 5: 2.802691
+Accuracy for class 6: 9.081420
+Accuracy for class 7: 46.400778
+Accuracy for class 8: 11.293634
+Accuracy for class 9: 17.839445
+Average accuracy: 19.850000
+
+
+Atoms vs accuracies
+====================
+k: 1
+--------
+Accuracy for class 0: 96.428571
+Accuracy for class 1: 97.621145
+Accuracy for class 2: 90.406977
+Accuracy for class 3: 89.306931
+Accuracy for class 4: 93.380855
+Accuracy for class 5: 89.237668
+Accuracy for class 6: 93.215031
+Accuracy for class 7: 91.828794
+Accuracy for class 8: 82.956879
+Accuracy for class 9: 85.034688
+Average accuracy: 91.040000
+k: 2
+--------
+Accuracy for class 0: 98.265306
+Accuracy for class 1: 98.854626
+Accuracy for class 2: 95.639535
+Accuracy for class 3: 92.970297
+Accuracy for class 4: 94.501018
+Accuracy for class 5: 93.161435
+Accuracy for class 6: 96.033403
+Accuracy for class 7: 94.163424
+Accuracy for class 8: 87.679671
+Accuracy for class 9: 90.089197
+Average accuracy: 94.210000
+k: 5
+--------
+Accuracy for class 0: 97.959184
+Accuracy for class 1: 98.678414
+Accuracy for class 2: 95.736434
+Accuracy for class 3: 93.366337
+Accuracy for class 4: 94.908350
+Accuracy for class 5: 93.946188
+Accuracy for class 6: 97.286013
+Accuracy for class 7: 93.774319
+Accuracy for class 8: 92.505133
+Accuracy for class 9: 91.377602
+Average accuracy: 95.000000
+k: 8
+--------
+Accuracy for class 0: 97.448980
+Accuracy for class 1: 97.533040
+Accuracy for class 2: 96.220930
+Accuracy for class 3: 94.356436
+Accuracy for class 4: 94.093686
+Accuracy for class 5: 92.152466
+Accuracy for class 6: 96.242171
+Accuracy for class 7: 92.120623
+Accuracy for class 8: 83.264887
+Accuracy for class 9: 93.557978
+Average accuracy: 93.780000
+k: 10
+--------
+Accuracy for class 0: 98.367347
+Accuracy for class 1: 98.854626
+Accuracy for class 2: 96.414729
+Accuracy for class 3: 94.752475
+Accuracy for class 4: 95.621181
+Accuracy for class 5: 92.825112
+Accuracy for class 6: 97.181628
+Accuracy for class 7: 94.163424
+Accuracy for class 8: 87.268994
+Accuracy for class 9: 90.882061
+Average accuracy: 94.710000
+k: 12
+--------
+Accuracy for class 0: 98.265306
+Accuracy for class 1: 98.237885
+Accuracy for class 2: 96.317829
+Accuracy for class 3: 94.950495
+Accuracy for class 4: 96.130346
+Accuracy for class 5: 93.946188
+Accuracy for class 6: 97.390397
+Accuracy for class 7: 95.038911
+Accuracy for class 8: 89.014374
+Accuracy for class 9: 91.774034
+Average accuracy: 95.160000
+k: 15
+--------
+Accuracy for class 0: 98.979592
+Accuracy for class 1: 97.444934
+Accuracy for class 2: 97.286822
+Accuracy for class 3: 94.257426
+Accuracy for class 4: 96.232179
+Accuracy for class 5: 93.385650
+Accuracy for class 6: 96.137787
+Accuracy for class 7: 93.774319
+Accuracy for class 8: 88.295688
+Accuracy for class 9: 85.133796
+Average accuracy: 94.140000
+k: 20
+--------
+Accuracy for class 0: 98.367347
+Accuracy for class 1: 98.325991
+Accuracy for class 2: 96.899225
+Accuracy for class 3: 94.851485
+Accuracy for class 4: 95.315682
+Accuracy for class 5: 93.609865
+Accuracy for class 6: 97.390397
+Accuracy for class 7: 94.455253
+Accuracy for class 8: 93.223819
+Accuracy for class 9: 92.368682
+Average accuracy: 95.530000

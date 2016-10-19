@@ -1,50 +1,101 @@
 tic;
+fileID = fopen('exp.txt','a');
 
-blockSize = 14;
+fprintf(fileID, 'Lambda vs accuracies\n====================\n');
 lambda = 0;
-numAtoms = [10, 10, 10, 10, 10, 10, 10, 10, 10, 10];
-c = 0;
-A = zeros(blockSize^2, sum(numAtoms));
-X = [];
-labels = [];
+for lambda = [0, 1, 2, 5, 7, 10, 15, 20, 25]
+	fprintf(fileID, 'Lambda: %d\n--------\n', lambda);
+	blockSize = 14;
+	
+	numAtoms = [10, 10, 10, 10, 10, 10, 10, 10, 10, 10];
+	c = 0;
+	A = zeros(blockSize^2, sum(numAtoms));
+	X = [];
+	labels = [];
 
-fprintf('Starting computing atoms\n');
+	% fprintf('Starting computing atoms\n');
 
-for label = 0:9
-	m = numAtoms(1, label + 1);
-	[Ai, Xi] = getAtoms(label, m, blockSize, lambda);
-	A(:, c + 1:c + m) = Ai;
-	c = c + m;
-	X = [X, Xi];
-	labels = [labels, ones(1, size(Xi, 2)) * label];
-	clear Ai Xi;
+	for label = 0:9
+		m = numAtoms(1, label + 1);
+		[Ai, Xi] = getAtoms(label, m, blockSize, lambda);
+		A(:, c + 1:c + m) = Ai;
+		c = c + m;
+		X = [X, Xi];
+		labels = [labels, ones(1, size(Xi, 2)) * label];
+		clear Ai Xi;
+	end
+
+	% fprintf('All atoms computed\n');
+	% fprintf('Sparse coding the data\n');
+
+	S = learnCodes(X, A, lambda);
+	clear X;
+	% fprintf('Convergence for S complete\n');
+
+	% fprintf('Fitting random forest classifier\n');
+
+	Mdl = TreeBagger(100, S', labels', 'oobpred', 'on', 'Method', 'classification');
+
+	% validations
+	totAcc = 0.0;
+	count = 0;
+	accuracies = [];
+	% fprintf('Starting validation\n');
+	for label = 0:9
+		[acc, c, pred] = validate(Mdl, label, A, blockSize, lambda);
+		totAcc = totAcc + acc;
+		count = count + c;
+		acc = acc * 100 / c;
+		accuracies = [accuracies, acc];
+		fprintf(fileID, 'Accuracy for class %d: %f\n', label, acc);
+	end
+
+	fprintf(fileID, 'Average accuracy: %f\n', 100*totAcc/count);
+	% accuracies;
 end
 
-fprintf('All atoms computed\n');
-fprintf('Sparse coding the data\n');
 
-S = learnCodes(X, A, lambda);
-clear X;
-fprintf('Convergence for S complete\n');
+fprintf(fileID, '\n\nAtoms vs accuracies\n====================\n');
+lambda = 0;
+for k = [1, 2, 5, 8, 10, 12, 15, 20]
+	fprintf(fileID, 'k: %d\n--------\n', k);
+	blockSize = 14;
+	
+	numAtoms = k * [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+	c = 0;
+	A = zeros(blockSize^2, sum(numAtoms));
+	X = [];
+	labels = [];
 
-fprintf('Fitting random forest classifier\n');
+	for label = 0:9
+		m = numAtoms(1, label + 1);
+		[Ai, Xi] = getAtoms(label, m, blockSize, lambda);
+		A(:, c + 1:c + m) = Ai;
+		c = c + m;
+		X = [X, Xi];
+		labels = [labels, ones(1, size(Xi, 2)) * label];
+		clear Ai Xi;
+	end
 
-Mdl = TreeBagger(100, S', labels', 'oobpred', 'on', 'Method', 'classification');
+	S = learnCodes(X, A, lambda);
+	clear X;
+	
+	Mdl = TreeBagger(100, S', labels', 'oobpred', 'on', 'Method', 'classification');
 
-% validations
-totAcc = 0.0;
-count = 0;
-accuracies = [];
-fprintf('Starting validation\n');
-for label = 0:9
-	[acc, c, pred] = validate(Mdl, label, A, blockSize, lambda);
-	totAcc = totAcc + acc;
-	count = count + c;
-	acc = acc * 100 / c;
-	accuracies = [accuracies, acc];
-	fprintf('Accuracy for class %d: %f\n', label, acc);
+	totAcc = 0.0;
+	count = 0;
+	accuracies = [];
+
+	for label = 0:9
+		[acc, c, pred] = validate(Mdl, label, A, blockSize, lambda);
+		totAcc = totAcc + acc;
+		count = count + c;
+		acc = acc * 100 / c;
+		accuracies = [accuracies, acc];
+		fprintf(fileID, 'Accuracy for class %d: %f\n', label, acc);
+	end
+
+	fprintf(fileID, 'Average accuracy: %f\n', 100*totAcc/count);
 end
-
-fprintf('Average accuracy: %f\n', 100*totAcc/count);
-accuracies;
+fclose(fileID);
 toc;
