@@ -1,7 +1,7 @@
 tic;
 rng(0);
 im =  double(imread('../data/barbara256.png'));
-Sigma = 12;
+Sigma = 20;
 im1 = im + randn(size(im))*Sigma;
 disp(strcat('Error from Source Image: ', ' ', num2str(RMSD(im, im1))));
 
