@@ -33,5 +33,4 @@ function [outputImage, noisyImage] = myBilateralFiltering(noisyImage, W, sigmaS,
 			outputImage(i, j) = num/den;
 		end
 	end
-
 end
