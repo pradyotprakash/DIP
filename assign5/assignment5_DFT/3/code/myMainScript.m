@@ -9,8 +9,10 @@ F2 = fftshift(fft2(I2));
 for D = [40, 80]
 	center = [256; 256];
 
+	% this part taken from https://in.mathworks.com/matlabcentral/newsreader/view_thread/291115
 	[X, Y] = meshgrid(1:512);
 	C = sqrt((X - center(1)) .^ 2 + (Y - center(2)) .^ 2) <= D;
+	%
 
 	F3 = F2 .* C;
 	T = real(ifft2(ifftshift(F3)));
