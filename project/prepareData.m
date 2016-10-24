@@ -13,6 +13,7 @@ function [X] = prepareData(label, blockSize, name)
 		h = fspecial('gaussian', 2, 0.66);
 		img = imfilter(img, h);
 		img = imresize(img, [blockSize, blockSize]);
+		img = double(img) + 0.05*double(max(max(img)))*randn(size(img));
 		count = count + 1;
 		X(:, count) = normc(single(img(:)));
 	end
