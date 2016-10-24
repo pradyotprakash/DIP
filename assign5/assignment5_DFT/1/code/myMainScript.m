@@ -37,7 +37,11 @@ imshow(im_PCA2, []);
 title('Final Image after Denoising (b)');
 disp(strcat('Error from Source Image after Denoising (b): ', ' ', num2str(RMSD(im, im_PCA2))));
 
-im_Bilateral = myBilateralFiltering(im1, 5, 1.5, 9.7);
+% Uncomment the following script to obtain the optimal parameters for
+% Bilateral Filtering
+% FindOptimalParameters
+a = 0.99; b = 48.4;
+im_Bilateral = myBilateralFiltering(im1, 5, a, b);
 figure(3);
 hold on;
 subplot(1, 3, 1);
